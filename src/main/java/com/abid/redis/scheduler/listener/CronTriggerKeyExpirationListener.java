@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 public class CronTriggerKeyExpirationListener implements MessageListener {
     @Autowired
     private RedisTemplate redisTemplate;
