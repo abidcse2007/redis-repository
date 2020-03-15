@@ -1,4 +1,4 @@
-package com.abid.redis.scheduler.bean;
+package com.abid.redis.scheduler.event;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,7 +6,6 @@ import java.util.Date;
 import com.abid.redis.scheduler.task.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +16,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Scheduler implements Serializable {
+    private String uuid;
     private String name;
     private String cronExpression;
-    private Class<Task> taskClass;
+    private String taskClass;
     private Date startDate;
     private Date endDate;
-    private Type type;
+    private SchedulerOperation operation;
 }

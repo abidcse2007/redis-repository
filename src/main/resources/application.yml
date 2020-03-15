@@ -1,1 +1,25 @@
-
+server:
+  port: 8081
+spring:
+  cloud:
+    stream:
+      bindings:
+        scheduler-input:
+          destination: scheduler-exchange
+          binder: local_rabbit
+          group: redis-schduler
+        scheduler-output:
+          destination: scheduler-exchange
+          binder: local_rabbit
+          group: redis-schduler
+      binders:
+        local_rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /

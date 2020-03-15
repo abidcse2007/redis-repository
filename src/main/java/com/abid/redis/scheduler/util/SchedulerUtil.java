@@ -2,7 +2,7 @@ package com.abid.redis.scheduler.util;
 
 import java.util.Date;
 
-import com.abid.redis.scheduler.bean.Scheduler;
+import com.abid.redis.scheduler.event.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.support.CronSequenceGenerator;

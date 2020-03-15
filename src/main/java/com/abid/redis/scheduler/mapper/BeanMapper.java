@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class BeanMapper extends ConfigurableMapper {
     @Override
     protected void configure(MapperFactory factory) {
-        factory.registerMapper(new ConfigurationRequestWSMapper());
-        factory.registerMapper(new ConfigurationResponseWSMapper());
+        factory.registerMapper(new SchedulerWSMapper());
     }
 }

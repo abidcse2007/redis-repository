@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-public class SchedulerServiceImpl implements SchedulerService {
+public class SchedulerSinkImpl implements SchedulerSink {
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -24,7 +24,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             "headers['operationType'] == 'CREATE'")
     @Transactional
     @Override
-    public boolean createSchedule(Scheduler scheduler) throws SchedulerServiceException {
+    public void create(Scheduler scheduler) throws SchedulerServiceException {
         try {
             if (redisTemplate.opsForHash().hasKey(SchedulerConstant.SCHEDULER_KEY, scheduler.getName())) {
                 throw new SchedulerServiceException("Conflict", "Scheduler already exists with same name");
@@ -35,10 +35,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
             log.info("Successfully created schedule for name={} and expression={}", scheduler.getName(),
                     scheduler.getCronExpression());
-            return true;
         } catch (Exception ex) {
             log.error("Failed to create scheduler due to {}", ex);
-            return false;
         }
     }
 
@@ -46,7 +44,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             "headers['operationType'] == 'UPDATE'")
     @Transactional
     @Override
-    public boolean updateSchedule(Scheduler scheduler) throws SchedulerServiceException {
+    public void update(Scheduler scheduler) throws SchedulerServiceException {
         try {
             if (!redisTemplate.opsForHash().hasKey(SchedulerConstant.SCHEDULER_KEY, scheduler.getName())) {
                 throw new SchedulerServiceException("Not Found", "Scheduler does not exists");
@@ -61,10 +59,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             schedulerUtil.createNextTrigger(currentScheduler);
             log.info("Successfully updated schedule for name={} and expression={}", scheduler.getName(),
                     scheduler.getCronExpression());
-            return true;
         } catch (Exception ex) {
             log.error("Failed to update scheduler due to {}", ex);
-            return false;
         }
     }
 
@@ -72,7 +68,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             "headers['operationType'] == 'DELETE'")
     @Transactional
     @Override
-    public boolean deleteSchedule(Scheduler scheduler) throws SchedulerServiceException {
+    public void delete(Scheduler scheduler) throws SchedulerServiceException {
         try {
             if (!redisTemplate.opsForHash().hasKey(SchedulerConstant.SCHEDULER_KEY, scheduler.getName())) {
                 throw new SchedulerServiceException("Not Found", "Scheduler does not exists");
@@ -83,10 +79,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
             log.info("Successfully deleted schedule for name={} and expression={}", scheduler.getName(),
                     scheduler.getCronExpression());
-            return true;
         } catch (Exception ex) {
             log.error("Failed to delete scheduler due to {}", ex);
-            return false;
         }
     }
 }

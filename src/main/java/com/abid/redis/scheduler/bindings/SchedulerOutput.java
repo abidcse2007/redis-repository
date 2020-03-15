@@ -3,9 +3,9 @@ package com.abid.redis.scheduler.bindings;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
-public interface Output {
-    String OUTPUT = "output";
+public interface SchedulerOutput {
+    String OUTPUT = "scheduler-output";
 
-    @Output(Output.OUTPUT)
+    @Output(SchedulerOutput.OUTPUT)
     MessageChannel output();
 }
