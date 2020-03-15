@@ -1,6 +1,6 @@
 package com.abid.redis.scheduler.service;
 
-import com.abid.redis.scheduler.bean.Scheduler;
+import com.abid.redis.scheduler.event.Scheduler;
 
 public interface SchedulerService {
     boolean createSchedule(Scheduler scheduler) throws SchedulerServiceException;

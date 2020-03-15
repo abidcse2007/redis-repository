@@ -1,10 +1,12 @@
 package com.abid.redis.scheduler.service;
 
-import com.abid.redis.scheduler.bean.Scheduler;
+import com.abid.redis.scheduler.bindings.SchedulerInput;
+import com.abid.redis.scheduler.event.Scheduler;
 import com.abid.redis.scheduler.util.SchedulerConstant;
 import com.abid.redis.scheduler.util.SchedulerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Autowired
     private SchedulerUtil schedulerUtil;
 
+    @StreamListener(value = SchedulerInput.INPUT, condition = "headers['eventType'] == 'CRUD' and " +
+            "headers['operationType'] == 'CREATE'")
     @Transactional
     @Override
     public boolean createSchedule(Scheduler scheduler) throws SchedulerServiceException {
@@ -38,6 +42,8 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @StreamListener(value = SchedulerInput.INPUT, condition = "headers['eventType'] == 'CRUD' and " +
+            "headers['operationType'] == 'UPDATE'")
     @Transactional
     @Override
     public boolean updateSchedule(Scheduler scheduler) throws SchedulerServiceException {
@@ -62,6 +68,8 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @StreamListener(value = SchedulerInput.INPUT, condition = "headers['eventType'] == 'CRUD' and " +
+            "headers['operationType'] == 'DELETE'")
     @Transactional
     @Override
     public boolean deleteSchedule(Scheduler scheduler) throws SchedulerServiceException {
