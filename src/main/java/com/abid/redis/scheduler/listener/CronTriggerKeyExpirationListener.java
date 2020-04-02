@@ -12,8 +12,10 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class CronTriggerKeyExpirationListener implements MessageListener {
     @Autowired
     private RedisTemplate redisTemplate;
